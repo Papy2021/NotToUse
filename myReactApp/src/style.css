@@ -1,0 +1,189 @@
+body {
+  font-family: "Eras ITC", "Lucida Console", "Century Gothic";
+  margin: 2px;
+  min-height: 100vh;
+  background-image: linear-gradient(150deg, rgb(9, 17, 49), rgb(5, 43, 10));
+}
+.bGroundColor {
+  background-image: linear-gradient(150deg, rgb(9, 17, 49), rgb(5, 43, 10));
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+
+.myFontFamilly{
+  font-family: "Eras ITC", "Lucida Console", "Century Gothic";
+}
+
+.cOntainerBG{
+  background: linear-gradient(150deg, rgb(5, 43, 10), rgb(9, 17, 49));
+}
+
+.radiusMode {
+  border-radius: 12px;
+  padding: 17px;
+}
+
+.aCCountSection {
+  color: #fff;
+  width: 100%;
+  max-width: 420px;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.4);
+  border: 1px solid whitesmoke;
+  border-radius: 9px;
+  margin: auto;
+  margin-top: 15%;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  flex-grow: 1;
+  padding-bottom: 1rem;
+}
+
+input[type="text"],
+input[type="password"],
+textarea {
+  font-family: "Eras ITC", "Lucida Console", "Century Gothic";
+  font-size: 22px;
+  padding: 0.25rem;
+  border-radius: 0.5rem;
+  background-color: darkgrey;
+  color: #000;
+}
+
+input[type="text"]:hover,
+input[type="password"]:hover {
+  background-color: white;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  background-color: white;
+}
+
+label,
+h1,
+p,
+h2,
+h3,
+h4,
+h5,
+h6,
+span {
+  font-family: "Eras ITC", "Lucida Console", "Century Gothic";
+}
+
+.rButton {
+  margin-top: 20px;
+  padding: 0.5rem;
+  background-color: transparent;
+  border-radius: 9px;
+  color: gray;
+  font-family: "Eras ITC", "Lucida Console", "Century Gothic";
+  font-size: 18px;
+  border: 1px solid white;
+}
+
+.modalInput input{
+  border:1px solid  rgba(0, 0, 0, 0.6);
+  margin-top: 2px;
+  color: black;
+}
+
+.modalInput select{
+  border:1px solid  rgba(0, 0, 0, 0.6);
+  margin-top: 2px;
+  color: black;
+}
+
+.modalHeader{
+color:white;
+}
+.modalBody{
+  background-color: rgb(24, 30, 54);
+  margin: 0px;
+}
+
+.rButton:hover {
+  background-color: rgb(19, 9, 26);
+  border: 1px solid red;
+}
+
+.instructions {
+  font-size: 0.75rem;
+  border-radius: 0.5rem;
+  background: #000;
+  color: #fff;
+  padding: 0.25rem;
+  position: relative;
+  bottom: -10px;
+}
+
+.instructions > svg {
+  margin-right: 0.25rem;
+}
+
+.offscreen {
+  position: absolute;
+  left: -9999px;
+}
+
+.hide {
+  display: none;
+}
+
+.valid {
+  color: limegreen;
+  margin-left: 0.25rem;
+}
+
+.invalid {
+  color: red;
+  margin-left: 0.25rem;
+}
+
+.errmsg {
+  background-color: rgb(24, 30, 54);
+  color: firebrick;
+  font-weight: bold;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: 10px;
+}
+
+.line {
+  display: inline-block;
+}
+
+.nav-items{
+  display:flex;
+
+}
+
+.nav{
+  display: flex;
+  justify-content: space-between;
+  align-items:  center;
+}
+
+.img{
+  height: 80px;
+  border-radius: 20px;
+  padding:5px;
+  margin-top: 20px;
+}
+
+.link{
+  padding: 10px;
+  color:white;
+}
+
+
