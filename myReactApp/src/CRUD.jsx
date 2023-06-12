@@ -60,9 +60,10 @@ const CRUD = () => {
       .catch((err) => {
         if (err.response.status === 401) {
           toast.error(`Unauthorized, please log in`);
+        } else if (err.response.status === 404) {
+          toast.error(`Data not found`);
+          console.log(err.response.data);
         }
-        toast.error(`An error occurred, try again later`);
-        console.log(err.response.data);
       });
   };
 
@@ -105,8 +106,7 @@ const CRUD = () => {
           if (error.response.status === 401) {
             toast.error(`You're logged out, please log in`);
             // console.log(err.response.status);
-          }
-          if (error.response.data[""]) {
+          } else if (error.response.data[""]) {
             toast.error(error.response.data[""][0]);
           } else if (error.response.data["Email"]) {
             toast.error(error.response.data["Email"][0]);
@@ -216,12 +216,10 @@ const CRUD = () => {
           console.log(error.response.data);
           if (error.response.status === 401) {
             toast.error(`You're logged out, please log in`);
-            // console.log(err.response.status);
           } else if (error.response.data[""]) {
             toast.error(error.response.data[""][0]);
           } else {
             toast.error("Error Occured, Please try again later");
-            console.log(error.response.data);
           }
         });
     }
