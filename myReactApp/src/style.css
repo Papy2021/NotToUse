@@ -10,12 +10,11 @@ body {
   min-height: 100vh;
 }
 
-
-.myFontFamilly{
+.myFontFamilly {
   font-family: "Eras ITC", "Lucida Console", "Century Gothic";
 }
 
-.cOntainerBG{
+.cOntainerBG {
   background: linear-gradient(150deg, rgb(5, 43, 10), rgb(9, 17, 49));
 }
 
@@ -37,7 +36,7 @@ body {
   border: 1px solid whitesmoke;
   border-radius: 9px;
   margin: auto;
-  margin-top: 15%;
+  margin-top: 8cap;
 }
 
 form {
@@ -92,22 +91,22 @@ span {
   border: 1px solid white;
 }
 
-.modalInput input{
-  border:1px solid  rgba(0, 0, 0, 0.6);
+.modalInput input {
+  border: 1px solid rgba(0, 0, 0, 0.6);
   margin-top: 2px;
   color: black;
 }
 
-.modalInput select{
-  border:1px solid  rgba(0, 0, 0, 0.6);
+.modalInput select {
+  border: 1px solid rgba(0, 0, 0, 0.6);
   margin-top: 2px;
   color: black;
 }
 
-.modalHeader{
-color:white;
+.modalHeader {
+  color: white;
 }
-.modalBody{
+.modalBody {
   background-color: rgb(24, 30, 54);
   margin: 0px;
 }
@@ -163,27 +162,32 @@ color:white;
   display: inline-block;
 }
 
-.nav-items{
-  display:flex;
-
+.nav-items {
+  display: flex;
 }
 
-.nav{
+.nav {
   display: flex;
   justify-content: space-between;
-  align-items:  center;
+  align-items: center;
 }
 
-.img{
+.img {
   height: 80px;
   border-radius: 20px;
-  padding:5px;
+  padding: 5px;
   margin-top: 20px;
 }
 
-.link{
+.link {
   padding: 10px;
-  color:white;
+  color: white;
 }
 
-
+a {
+  font-size: 20px;
+  text-decoration: none;
+}
+a:hover {
+  color: sienna;
+}

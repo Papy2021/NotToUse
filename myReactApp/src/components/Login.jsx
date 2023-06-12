@@ -1,8 +1,8 @@
 import { useRef, useState, useEffect, Fragment, useContext } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
-import Crud from "../CRUD.jsx";
 import { LoginContext } from "../Helper/Context.jsx";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const { loggedIn, setLoggedIn } = useContext(LoginContext);
@@ -36,11 +36,9 @@ const Login = () => {
       .post(loginUrl, loginData)
       .then((response) => {
         setLoggedIn(response.data);
-          setUser("");
+        setUser("");
         setPwd("");
-        console.log(`The Token Is ${loggedIn}`);
         setSuccess(true);
-   
       })
       .catch((error) => {
         setErrMsg(error.response.data);
@@ -52,8 +50,14 @@ const Login = () => {
     <Fragment>
       {success ? (
         <section>
-          {/* <h1>Succeed</h1> */}
-          <Crud></Crud>
+          <div className="container text-center mt-5">
+            <h1 className="text-bg-primary p-2 radiusMode">You're Logged In</h1>
+
+            <br />
+            <span className="line">
+              <Link to="/actors"> Click here to continue</Link>
+            </span>
+          </div>
         </section>
       ) : (
         <section className="aCCountSection">

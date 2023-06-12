@@ -58,7 +58,11 @@ const CRUD = () => {
         setData(result.data);
       })
       .catch((err) => {
-        console.log(err);
+        if (err.response.status === 401) {
+          toast.error(`Unauthorized, please log in`);
+        }
+        toast.error(`An error occurred, try again later`);
+        console.log(err.response.data);
       });
   };
 
@@ -98,8 +102,20 @@ const CRUD = () => {
           clearControllers();
         })
         .catch((error) => {
-          toast.error("Error occured check on the Console");
-          console.log(error.response.data);
+          if (error.response.status === 401) {
+            toast.error(`You're logged out, please log in`);
+            // console.log(err.response.status);
+          }
+          if (error.response.data[""]) {
+            toast.error(error.response.data[""][0]);
+          } else if (error.response.data["Email"]) {
+            toast.error(error.response.data["Email"][0]);
+          } else if (error.response.data["Phone"]) {
+            toast.error(error.response.data["Phone"][0]);
+          } else {
+            toast.error("Error Occured, Please try again later");
+            console.log(error.response.data);
+          }
         });
     }
   };
@@ -121,8 +137,16 @@ const CRUD = () => {
         setEditPhoneNumber(result.data.phone);
         setEditID(id);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        if (error.response.status === 401) {
+          toast.error(`You're logged out, please log in`);
+          // console.log(err.response.status);
+        } else if (error.response.status === 404) {
+          toast.error(`The actor not exists on the system`);
+        } else {
+          console.log(error.response);
+          toast.error(`Error occurred, try again later`);
+        }
       });
   };
 
@@ -141,7 +165,15 @@ const CRUD = () => {
           }
         })
         .catch((error) => {
-          toast.error("An error occurred while creating");
+          if (error.response.status === 401) {
+            toast.error(`You're logged out, please log in`);
+            // console.log(err.response.status);
+          } else if (error.response.status === 404) {
+            toast.error(`The actor not exists on the system`);
+          } else {
+            console.log(error.response);
+            toast.error(`Error occurred, try again later`);
+          }
         });
     }
   };
@@ -181,7 +213,16 @@ const CRUD = () => {
           clearControllers();
         })
         .catch((error) => {
-          toast.error("An error occurred while updating the actor");
+          console.log(error.response.data);
+          if (error.response.status === 401) {
+            toast.error(`You're logged out, please log in`);
+            // console.log(err.response.status);
+          } else if (error.response.data[""]) {
+            toast.error(error.response.data[""][0]);
+          } else {
+            toast.error("Error Occured, Please try again later");
+            console.log(error.response.data);
+          }
         });
     }
   };
@@ -203,10 +244,13 @@ const CRUD = () => {
   };
   //------------------------------------------------------------------------------------------------------------------------------------------------------
 
+  const handleLogout = () => {
+    setLoggedIn("");
+  };
   return (
     <Fragment>
       <div className="container">
-        <h2>List Actors</h2>
+        <h2>Create Actor</h2>
       </div>
       <ToastContainer />
 
@@ -287,7 +331,12 @@ const CRUD = () => {
           </Row>
         </Container>
       </div>
+
       <br></br>
+      <div className="container">
+        <h2>List Actors</h2>
+      </div>
+
       <div className="mt-4 cOntainerBG myFontFamilly container radiusMode">
         <Container className="mt-3">
           <Table striped bordered hover className="raduis table-fluid">
@@ -435,8 +484,8 @@ const CRUD = () => {
       <div>
         <div className="container cOntainerBG mt-5 nav">
           <h1 className="m-4 .radiusMode">Film Industry</h1>
-     
-          <Link to="/login" >
+
+          <Link to="/login" onClick={handleLogout}>
             Logout
           </Link>
         </div>

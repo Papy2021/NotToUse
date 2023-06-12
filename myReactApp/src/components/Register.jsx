@@ -9,8 +9,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-
-
 const USER_REGEX =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -57,10 +55,10 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    //if button enabled with JS Hack
     const v1 = USER_REGEX.test(currentUser);
     const v2 = PWD_REGEX.test(pwd);
     if (!v1 || !v2) {
+      setErrorMsg(`Invalid password or email format`);
       return;
     }
 
@@ -78,10 +76,12 @@ const Register = () => {
         setSuccess(true);
       })
       .catch((error) => {
-        setErrorMsg(
-          `${error.response.data[""]} please use a different Email Address`
-        );
-        console.log(error.response.data[""]);
+        if (error.response.data) {
+          setErrorMsg(
+            `${error.response.data[""]} please use a different Email`
+          );
+        }
+        console.log(error.response.data);
       });
   };
 
@@ -217,10 +217,9 @@ const Register = () => {
             </button>
 
             <p>
-            
               <br />
               <span className="line">
-                You have an account? 
+                You have an account?
                 <Link to="/login">LogIn</Link>
               </span>
             </p>
