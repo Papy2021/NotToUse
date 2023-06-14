@@ -32,9 +32,9 @@ const Register = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const [success, setSuccess] = useState(false);
 
-  // useEffect(() => {
-  //   userRef.current.focus();
-  // }, []);
+  useEffect(() => {
+    userRef.current.focus();
+  }, []);
 
   useEffect(() => {
     const result = USER_REGEX.test(currentUser);
@@ -76,10 +76,20 @@ const Register = () => {
         setSuccess(true);
       })
       .catch((error) => {
-        if (error.response.data) {
+        if (error.response.data[""]) {
           setErrorMsg(
             `${error.response.data[""]} please use a different Email`
           );
+        } else if (error.response.data["ConfirmPassword"]) {
+          setErrorMsg(
+            `${error.response.data["ConfirmPassword"]} please use a different Email`
+          );
+        } else if (error.response.data["Email"]) {
+          setErrorMsg(
+            `${error.response.data["Email"]}  is not a valid email-format`
+          );
+        } else if (error.response.data["Password"]) {
+          setErrorMsg(`${error.response.data["Password"]}  invalid password`);
         }
         console.log(error.response.data);
       });
@@ -89,7 +99,16 @@ const Register = () => {
     <Fragment>
       {success ? (
         <section>
-          <Crud></Crud>
+          <div className="container text-center mt-5">
+            <h1 className="text-bg-primary p-2 radiusMode">
+              Registration Successful
+            </h1>
+
+            <br />
+            <span className="line">
+              <Link to="/login"> Click here to login</Link>
+            </span>
+          </div>
         </section>
       ) : (
         <section className="aCCountSection">
@@ -107,7 +126,7 @@ const Register = () => {
               <span className={validName ? "valid" : "hide"}>
                 <FontAwesomeIcon icon={faCheck} />
               </span>
-              <span className={validName || !currentUser ? "Hide" : "invalid"}>
+              <span className={validName || !currentUser ? "hide" : "invalid"}>
                 <FontAwesomeIcon icon={faTimes} />
               </span>
             </label>
@@ -135,21 +154,21 @@ const Register = () => {
               Check the email format.
               <br />
               Must contain the symbole "@" with a domaine part after . .<br />
-              Letters, numers, underscores,hyphens allowed
+              Letters, numbers, underscores,hyphens allowed
             </p>
+
             <label htmlFor="password">
               Password:
               <span className={validPwd ? "valid" : "hide"}>
                 <FontAwesomeIcon icon={faCheck} />
               </span>
-              <span className={validPwd || !pwd ? "Hide" : "invalid"}>
+              <span className={validPwd || !pwd ? "hide" : "invalid"}>
                 <FontAwesomeIcon icon={faTimes} />
               </span>
             </label>
             <input
               type="password"
               id="password"
-              ref={userRef}
               onChange={(e) => setPwd(e.target.value)}
               required
               aria-invalid={validPwd ? "false" : "true"}
@@ -159,9 +178,7 @@ const Register = () => {
             />
             <p
               id="pwdnote"
-              className={
-                pwdFocus && pwd && !validPwd ? "instructions" : "offscreen"
-              }
+              className={pwdFocus && !validPwd ? "instructions" : "offscreen"}
             >
               <FontAwesomeIcon icon={faInfoCircle} />
               8 to 24 characteres.
@@ -180,14 +197,13 @@ const Register = () => {
               <span className={validMatch && matchPwd ? "valid" : "hide"}>
                 <FontAwesomeIcon icon={faCheck} />
               </span>
-              <span className={validMatch || !matchPwd ? "Hide" : "invalid"}>
+              <span className={validMatch || !matchPwd ? "hide" : "invalid"}>
                 <FontAwesomeIcon icon={faTimes} />
               </span>
             </label>
             <input
               type="password"
               id="confirmpwd"
-              ref={userRef}
               onChange={(e) => setMatchPwd(e.target.value)}
               required
               aria-invalid={validMatch ? "false" : "true"}
@@ -198,9 +214,7 @@ const Register = () => {
             <p
               id="confirmnote"
               className={
-                matchFocus && matchPwd && !validMatch
-                  ? "instructions"
-                  : "offscreen"
+                matchFocus && !validMatch ? "instructions" : "offscreen"
               }
             >
               <FontAwesomeIcon icon={faInfoCircle} />
@@ -220,7 +234,8 @@ const Register = () => {
               <br />
               <span className="line">
                 You have an account?
-                <Link to="/login">LogIn</Link>
+                <br />
+                <Link to="/login">Sign in</Link>
               </span>
             </p>
           </form>

@@ -15,9 +15,9 @@ const Login = () => {
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
 
-  // useEffect(() => {
-  //   userRef.current.focus()
-  // },[])
+  useEffect(() => {
+    userRef.current.focus()
+  },[])
 
   useEffect(() => {
     setErrMsg("");
@@ -63,7 +63,7 @@ const Login = () => {
         <section className="aCCountSection">
           <p
             ref={errRef}
-            className={errMsg ? "errmsg" : "offscreen"}
+            className={errMsg? "errmsg" : "offscreen"}
             aria-live="=assertive"
           >
             {errMsg}

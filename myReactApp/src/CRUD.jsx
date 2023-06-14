@@ -383,7 +383,7 @@ const CRUD = () => {
                       </tr>
                     );
                   })
-                : null}
+                : <h1>Loading...</h1>}
             </tbody>
           </Table>
         </Container>

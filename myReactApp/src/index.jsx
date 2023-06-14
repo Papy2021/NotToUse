@@ -11,13 +11,13 @@ import { BrowserRouter } from "react-router-dom";
 const rootEl = document.getElementById("root");
 const root = createRoot(rootEl);
 root.render(
-  // <StrictMode>
+  <StrictMode>
     <BrowserRouter>
         <div className="bGroundColor">
           <App />
         </div>
     </BrowserRouter>
-  // </StrictMode>
+  </StrictMode>
 );
 
 // console.log("HI)
