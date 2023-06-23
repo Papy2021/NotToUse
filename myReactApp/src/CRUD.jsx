@@ -10,43 +10,56 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { LoginContext } from "./Helper/Context.jsx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const CRUD = () => {
+  //useContext hook, that got the user tokens informations----------------------------------------------------------------------------------------
   const { loggedIn, setLoggedIn } = useContext(LoginContext);
+  //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+  //useNavigate hook, that will be used  in the function component to navigate to other pages--------------------------
+  const navigate = useNavigate();
+  //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+  //Variable that will be used to valid the Email address format----------------------------------------------------------------------------------
   const Email_REGEX =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-  // Variables for the modal-------------------------
+  // Variables for the modal------------------------------------------------------------------------------------------------------------------------------------------------
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  // -------------------------------------------------------------------
+  // -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-  //States for adding new members--------------------------------------
+  //States for adding new actor-----------------------------------------------------------------------------------------------------------------------------------------
   const [cFullName, setFullName] = useState("");
   const [cGender, setGender] = useState("Select Gender");
   const [cEmailAddress, setEmailAddress] = useState("");
   const [cPosition, setPosition] = useState("Select Position");
   const [cPhoneNumber, setPhoneNumber] = useState("");
-  //--------------------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-  //States for Updating The Existing membe--------------------------------
+  //States for Updating The Existing  actor-------------------------------------------------------------------------------------------------------------------------
   const [editID, setEditID] = useState("");
   const [editFullName, setEditFullName] = useState("");
-  const [editGender, setEditGender] = useState("");
+  const [editGender, setEditGender] = useState("Select Gender");
   const [editEmailAddress, setEditEmailAddress] = useState("");
-  const [editPosition, setEditPosition] = useState("");
+  const [editPosition, setEditPosition] = useState("Select Position");
   const [editPhoneNumber, setEditPhoneNumber] = useState("");
-  //-------------------------------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+  //useState for the variable that will carry the data for the actors---------------------------------------------------------------------------------
   const [data, setData] = useState([]);
+  //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+  //useEffect  to fetch data once when the component renders for the 1st time, note this useEffect will be executed 1 time only.
   useEffect(() => {
     fetchData();
   }, []);
+  //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+  //The function that fetches the data(All Actors) from the server (API)---------------------------------------------------------------------------
   const fetchData = () => {
     axios
       .get("https://localhost:44365/api/v1/Actors", {
@@ -58,14 +71,21 @@ const CRUD = () => {
         setData(result.data);
       })
       .catch((err) => {
-        if (err.response.status === 401) {
+        if (err?.code === "ERR_NETWORK") {
+          console.log(err?.code);
+          navigate(
+            `/login?message="there is a problem with the network or your server may be unavailable"`
+          );
+        } else if (err.response?.status === 401) {
           toast.error(`Unauthorized, please log in`);
-        } else if (err.response.status === 404) {
+          navigate(`/login?message="You must login first"`);
+        } else if (err.response?.status === 404) {
           toast.error(`Data not found`);
           console.log(err.response.data);
         }
       });
   };
+  //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
   //Function for the Posting Data to create a new Member.------------------------------------
   const handleCreate = () => {
@@ -103,24 +123,25 @@ const CRUD = () => {
           clearControllers();
         })
         .catch((error) => {
-          if (error.response.status === 401) {
+          if (error.response?.status === 401) {
             toast.error(`You're logged out, please log in`);
             // console.log(err.response.status);
-          } else if (error.response.data[""]) {
-            toast.error(error.response.data[""][0]);
-          } else if (error.response.data["Email"]) {
-            toast.error(error.response.data["Email"][0]);
-          } else if (error.response.data["Phone"]) {
-            toast.error(error.response.data["Phone"][0]);
+          } else if (error.response?.data[""]) {
+            toast.error(error.response?.data[""][0]);
+          } else if (error.response?.data["Email"]) {
+            toast.error(error.response?.data["Email"][0]);
+          } else if (error.response?.data["Phone"]) {
+            toast.error(error.response?.data["Phone"][0]);
           } else {
             toast.error("Error Occured, Please try again later");
-            console.log(error.response.data);
+            console.log(error.response?.data);
           }
         });
     }
   };
-  //-----------------------------------------------------------------------------------------------------------------------------------------
+  //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+  //function to select an actor for the update operation--------------------------------------------------------------------------
   const handleEdit = (id) => {
     handleShow();
     axios
@@ -130,6 +151,7 @@ const CRUD = () => {
         },
       })
       .then((result) => {
+        // console.log(result);
         setEditFullName(result.data.fullName);
         setEditGender(result.data.gender);
         setEditEmailAddress(result.data.email);
@@ -149,9 +171,14 @@ const CRUD = () => {
         }
       });
   };
+  //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+  //--function to delete the selected  actor from the list of actors-------------------------------------------------------------
   const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete this actor?") == true) {
+    const confirmQuestion = window.confirm(
+      "Are you sure you want to delete the selected actor?"
+    );
+    if (confirmQuestion == true) {
       axios
         .delete(`https://localhost:44365/api/v1/Members/${id}`, {
           headers: {
@@ -165,19 +192,24 @@ const CRUD = () => {
           }
         })
         .catch((error) => {
-          if (error.response.status === 401) {
+          if (error.response?.status === 401) {
             toast.error(`You're logged out, please log in`);
             // console.log(err.response.status);
-          } else if (error.response.status === 404) {
-            toast.error(`The actor not exists on the system`);
+          } else if (error.response?.status === 404) {
+            toast.error(`The actor not exist on the system`);
           } else {
-            console.log(error.response);
+            console.log(error?.response);
             toast.error(`Error occurred, try again later`);
           }
         });
     }
   };
+  //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+
+  //fiuntion to update the seleted actor----------------------------------------------------------------------------------------------------------
   const handleUpdate = () => {
     if (editFullName == "") {
       toast.error("Full Name is required");
@@ -228,9 +260,9 @@ const CRUD = () => {
   //Function to clear all the form elements after submission----------------------------------------
   const clearControllers = () => {
     setFullName("");
-    setGender(-1);
+    setGender("Select Gender");
     setEmailAddress("");
-    setPosition(-1);
+    setPosition("Select Position");
     setPhoneNumber("");
 
     setEditFullName("");
@@ -340,7 +372,7 @@ const CRUD = () => {
           <Table striped bordered hover className="raduis table-fluid">
             <thead>
               <tr>
-                <th>#</th>
+                <th className="text-danger">#</th>
                 <th>FullName</th>
                 <th>Gender</th>
                 <th>Email</th>
@@ -351,39 +383,42 @@ const CRUD = () => {
             </thead>
 
             <tbody>
-              {data && data.length > 0
-                ? data.map((item, index) => {
-                    // if(item.gender==0){
+              {data && data.length > 0 ? (
+                data.map((item, index) => {
+                  return (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>{item.fullName}</td>
+                      <td>{item.gender}</td>
+                      <td>{item.email}</td>
+                      <td>{item.position}</td>
+                      <td>{item.phone}</td>
 
-                    // }
-                    return (
-                      <tr key={index}>
-                        <td>{index + 1}</td>
-                        <td>{item.fullName}</td>
-                        <td>{item.gender}</td>
-                        <td>{item.email}</td>
-                        <td>{item.position}</td>
-                        <td>{item.phone}</td>
-
-                        <td colSpan={2}>
-                          <button
-                            className="btn btn-primary"
-                            onClick={() => handleEdit(item.id)}
-                          >
-                            Edit
-                          </button>
-                          &nbsp;
-                          <button
-                            className="btn btn-danger"
-                            onClick={() => handleDelete(item.id)}
-                          >
-                            Delete
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })
-                : <h1>Loading...</h1>}
+                      <td colSpan={2}>
+                        <button
+                          className="btn btn-primary btn-sm"
+                          onClick={() => handleEdit(item.id)}
+                        >
+                          Edit
+                        </button>
+                        &nbsp;
+                        <button
+                          className="btn btn-danger btn-sm"
+                          onClick={() => handleDelete(item.id)}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td>Loading...</td>
+                </tr>
+                // <Navigate to="/login"></Navigate>
+              )}
+              {/* <tr><td>Loading...</td></tr> } */}
             </tbody>
           </Table>
         </Container>

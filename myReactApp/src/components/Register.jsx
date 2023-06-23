@@ -111,7 +111,7 @@ const Register = () => {
           </div>
         </section>
       ) : (
-        <section className="aCCountSection">
+        <section className="aCCountSection mt-5">
           <p
             ref={errRef}
             className={errorMsg ? "errmsg" : "offscreen"}

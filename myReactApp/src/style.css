@@ -166,10 +166,12 @@ span {
   display: flex;
 }
 
+
 .nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
 }
 
 .img {
@@ -179,15 +181,34 @@ span {
   margin-top: 20px;
 }
 
-.link {
-  padding: 10px;
-  color: white;
-}
-
 a {
   font-size: 20px;
   text-decoration: none;
 }
 a:hover {
   color: sienna;
+}
+
+
+.nav-items a:hover {
+  border: 1px solid  red;
+ }
+
+
+ .navItemActive {
+  border: 1px solid  sienna;
+  margin: 2px;
+  border-radius: 9px;
+  padding: 7px;
+  color:sienna;
+  font-size: 20px;
+ }
+
+ .link {
+  border: 1px solid  transparent;
+  margin: 2px;
+  border-radius: 9px;
+  padding: 7px;
+  color:aliceblue;
+  font-size: 20px;
 }

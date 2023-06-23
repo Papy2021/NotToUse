@@ -2,10 +2,13 @@ import { useRef, useState, useEffect, Fragment, useContext } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { LoginContext } from "../Helper/Context.jsx";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const { loggedIn, setLoggedIn } = useContext(LoginContext);
+
+  const [searchP, setSearchParams] = useSearchParams();
+  const messageFromRedirect = searchP.get("message");
 
   const userRef = useRef();
   const errRef = useRef();
@@ -16,16 +19,26 @@ const Login = () => {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    userRef.current.focus()
-  },[])
+    userRef.current.focus();
+  }, []);
 
   useEffect(() => {
-    setErrMsg("");
+    if(messageFromRedirect){
+      setErrMsg(messageFromRedirect);
+    }
+    else {
+          setErrMsg("");
+    }
   }, [user, pwd]);
 
+
+
+  // if (messageFromRedirect) {
+  //   setErrMsg(messageFromRedirect);
+  // }
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    setErrMsg("");
     const loginUrl = "https://localhost:44365/api/v1/Account/login";
     const loginData = {
       username: user,
@@ -52,7 +65,6 @@ const Login = () => {
         <section>
           <div className="container text-center mt-5">
             <h1 className="text-bg-primary p-2 radiusMode">You're Logged In</h1>
-
             <br />
             <span className="line">
               <Link to="/actors"> Click here to continue</Link>
@@ -60,10 +72,10 @@ const Login = () => {
           </div>
         </section>
       ) : (
-        <section className="aCCountSection">
+        <section className="aCCountSection mt-5">
           <p
             ref={errRef}
-            className={errMsg? "errmsg" : "offscreen"}
+            className={errMsg ? "errmsg" : "offscreen"}
             aria-live="=assertive"
           >
             {errMsg}

@@ -1,25 +1,28 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { NavLink } from "react-router-dom";
 
 export default function Navbar() {
   return (
     <nav className="nav container">
-      <Link to="/">
+      <NavLink to="/">
         <img src="/src/images/PKT_8373.JPG" className="img" />
-      </Link>
+      </NavLink>
 
       <div className="nav-items">
-        <Link to="/" className="link">
+        <NavLink
+          to="."
+          className={({ isActive }) => (isActive ? "navItemActive" : "link")}
+        >
           Home
-        </Link>
-        <Link to="/" className="link">
+        </NavLink>
+        <NavLink to="about" className={({ isActive }) => (isActive ? "navItemActive" : "link")}>
           About
-        </Link>
-        <Link to="/register" className="link">
+        </NavLink>
+        <NavLink to="register"     className={({ isActive }) => (isActive ? "navItemActive" : "link")}>
           Register
-        </Link>
+        </NavLink>
       </div>
     </nav>
   );
 }
- 
