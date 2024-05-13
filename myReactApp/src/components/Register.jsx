@@ -62,7 +62,7 @@ const Register = () => {
       return;
     }
 
-    const userUrl = "https://localhost:44365/api/v1/Account/register";
+    const userUrl = "https://localhost:7003/api/v1/Account/register";
     const userData = {
       email: currentUser,
       password: pwd,
