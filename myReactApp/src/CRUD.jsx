@@ -62,7 +62,7 @@ const CRUD = () => {
   //The function that fetches the data(All Actors) from the server (API)---------------------------------------------------------------------------
   const fetchData = () => {
     axios
-      .get("https://localhost:44365/api/v1/Actors", {
+      .get("https://localhost:7003/api/v1/Actors", {
         headers: {
           Authorization: `Bearer ${loggedIn}`,
         },
@@ -102,7 +102,7 @@ const CRUD = () => {
     } else if (cPhoneNumber == "") {
       toast.error("phone is required");
     } else {
-      const postUrl = "https://localhost:44365/api/v1/Actors";
+      const postUrl = "https://localhost:7003/api/v1/Actors";
       const postData = {
         fullName: cFullName,
         gender: cGender,
@@ -145,7 +145,7 @@ const CRUD = () => {
   const handleEdit = (id) => {
     handleShow();
     axios
-      .get(`https://localhost:44365/api/v1/Actors/${id}`, {
+      .get(`https://localhost:7003/api/v1/Actors/${id}`, {
         headers: {
           Authorization: `Bearer ${loggedIn}`,
         },
@@ -180,7 +180,7 @@ const CRUD = () => {
     );
     if (confirmQuestion == true) {
       axios
-        .delete(`https://localhost:44365/api/v1/Members/${id}`, {
+        .delete(`https://localhost:7003/api/v1/Members/${id}`, {
           headers: {
             Authorization: `Bearer ${loggedIn}`,
           },
@@ -206,9 +206,6 @@ const CRUD = () => {
   };
   //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-
-
   //fiuntion to update the seleted actor----------------------------------------------------------------------------------------------------------
   const handleUpdate = () => {
     if (editFullName == "") {
@@ -224,7 +221,7 @@ const CRUD = () => {
     } else if (editPhoneNumber == "") {
       toast.error("phone is required");
     } else {
-      const putUrl = `https://localhost:44365/api/v1/Actors/${editID}`;
+      const putUrl = `https://localhost:7003/api/v1/Actors/${editID}`;
       const putData = {
         fullName: editFullName,
         gender: editGender,

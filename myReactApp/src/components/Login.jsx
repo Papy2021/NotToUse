@@ -23,15 +23,12 @@ const Login = () => {
   }, []);
 
   useEffect(() => {
-    if(messageFromRedirect){
+    if (messageFromRedirect) {
       setErrMsg(messageFromRedirect);
-    }
-    else {
-          setErrMsg("");
+    } else {
+      setErrMsg("");
     }
   }, [user, pwd]);
-
-
 
   // if (messageFromRedirect) {
   //   setErrMsg(messageFromRedirect);
@@ -39,7 +36,7 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrMsg("");
-    const loginUrl = "https://localhost:44365/api/v1/Account/login";
+    const loginUrl = "https://localhost:7003/api/v1/Account/login";
     const loginData = {
       username: user,
       password: pwd,
